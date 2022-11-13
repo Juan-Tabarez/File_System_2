@@ -16,16 +16,36 @@ public class Usuario {
     
     private boolean permisosRoot;
     
-    private LinkedList<Grupo> grupos;
+    private LinkedList<Grupo> gruposUsuario;
     
     public Usuario(String nombre){
         this.nombre = nombre;
-        grupos = new LinkedList<>();
-        if(nombre.equals("Root")){
+        gruposUsuario = new LinkedList<>();
+        if(nombre.equals("root")){
             permisosRoot = true;
         }
         else{
             permisosRoot = false;
         }
+    }
+    
+    public String getNombre(){
+        return this.nombre;
+    } 
+    
+    public void agregarGrupo(Grupo grupo){
+        gruposUsuario.add(grupo);
+    }
+    
+    public void agregarUsuarioGrupo(String nombreGrupo) throws Exception{
+        Grupo grupo = Grupos.buscarGrupo(nombreGrupo);
+        if(grupo == null){
+            throw new Exception("Grupo no existente");
+        }
+        if(grupo.ConieneUsuario(this.nombre)){
+            throw new Exception("El usuario "+this.nombre+" ya pertenece al grupo "+nombreGrupo);
+        }
+        grupo.agregarUusario(this);
+        this.gruposUsuario.add(grupo);
     }
 }

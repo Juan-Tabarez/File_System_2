@@ -15,7 +15,7 @@ public class Grupos {
     public static LinkedList<Grupo> grupos = new LinkedList<>();
     
     public static void CrearGrupo(String nombre) throws Exception{
-        if(existeGrupo(nombre)){
+        if(buscarGrupo(nombre) != null){
             throw new Exception("Grupo existente");
         }
         Grupo grupoNuevo = new Grupo(nombre);
@@ -23,23 +23,35 @@ public class Grupos {
     }
     
     public static void EliminarGrupo(String nombre) throws Exception{
-        if(!existeGrupo(nombre)){
+        Grupo grupo = buscarGrupo(nombre);
+        if(grupo == null){
             throw new Exception("Grupo no existente");
         }
-        for(Grupo grupo: grupos){
-            if(grupo.getNombre().equals(nombre)){
-                grupos.remove(grupo);
-                break;
-            }
-        }
+        grupos.remove(grupo);  
     }
     
-    public static boolean existeGrupo(String nombre){
+    public static Grupo buscarGrupo(String nombre){
         for(Grupo grupo: grupos){
             if(grupo.getNombre().equals(nombre)){
-                return true;
+                return grupo;
             }
         }
-        return false;
+        return null;
+    }
+    
+     public void agregarUsuarioAGrupo(String nombreUsuario, String nombreGrupo) throws Exception{
+        Grupo grupo = Grupos.buscarGrupo(nombreGrupo);
+        Usuario usuario = Usuarios.buscarUsuario(nombreUsuario);
+        if(grupo == null){
+            throw new Exception("Grupo no existente");
+        }
+        if(usuario == null){
+            throw new Exception("Usuario no existente");        
+        }
+        if(grupo.ConieneUsuario(nombreUsuario)){
+            throw new Exception("El usuario "+nombreUsuario+" ya pertenece al grupo "+nombreGrupo);
+        }
+        grupo.agregarUusario(usuario);
+        usuario.agregarGrupo(grupo);
     }
 }

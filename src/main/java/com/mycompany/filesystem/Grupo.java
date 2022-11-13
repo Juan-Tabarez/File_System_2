@@ -24,4 +24,17 @@ public class Grupo {
     public String getNombre(){
         return this.nombre;
     }
+    
+    public boolean ConieneUsuario(String nombre){
+        for(Usuario usuario: usuarios){
+            if(usuario.getNombre().equals(nombre)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public void agregarUusario(Usuario usuario){
+        usuarios.add(usuario);
+    }
 }
