@@ -17,7 +17,6 @@ public class Fichero extends Archivo{
         this.extension = extension;
         this.contenido = new File("./src/Contenidos/"+nombre+extension+".txt");
         this.esDirectorio = false;
-        permisosPropietario = new Permisos(true, true, true);
         permisosUsuario = new Permisos(false, false, false);
         permisosGrupo = new Permisos(false, false, false);
     }

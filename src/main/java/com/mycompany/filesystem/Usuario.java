@@ -37,15 +37,11 @@ public class Usuario {
         gruposUsuario.add(grupo);
     }
     
-    public void agregarUsuarioGrupo(String nombreGrupo) throws Exception{
-        Grupo grupo = Grupos.buscarGrupo(nombreGrupo);
-        if(grupo == null){
-            throw new Exception("Grupo no existente");
-        }
-        if(grupo.ConieneUsuario(this.nombre)){
-            throw new Exception("El usuario "+this.nombre+" ya pertenece al grupo "+nombreGrupo);
-        }
-        grupo.agregarUusario(this);
-        this.gruposUsuario.add(grupo);
+    public boolean getPermisos(){
+        return permisosRoot;
+    }
+    
+    public void setPermisos(boolean permisos){
+        permisosRoot = permisos;
     }
 }

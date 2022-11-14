@@ -22,15 +22,15 @@ public class Permisos {
         this.ejecucion = ejecucion;
     }
 
-    public boolean isLectura() {
+    public boolean getLectura() {
         return lectura;
     }
 
-    public boolean isEscritura() {
+    public boolean getEscritura() {
         return escritura;
     }
 
-    public boolean isEjecucion() {
+    public boolean getEjecucion() {
         return ejecucion;
     }
 

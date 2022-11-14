@@ -22,7 +22,6 @@ public class Directorio extends Archivo{
         ficheros = new LinkedList<Fichero>();
         directorios = new LinkedList<Directorio>();
         this.nombre = nombre;
-        permisosPropietario = new Permisos(true, true, true);
         permisosUsuario = new Permisos(false, false, false);
         permisosGrupo = new Permisos(false, false, false);
     }
@@ -45,10 +44,13 @@ public class Directorio extends Archivo{
             }
         }
         if(existe){
-            throw new Exception("Directorio existente");
+            System.out.println("Directorio existente");
         }
-        Directorio nuevoDirectorio = new Directorio(nombre);
-        directorios.add(nuevoDirectorio);
+        else{
+            Directorio nuevoDirectorio = new Directorio(nombre);
+            directorios.add(nuevoDirectorio);
+            System.out.println("Directorio creado");
+        }     
     }
     
     public void CrearFichero(String nombre, String extension) throws Exception{
@@ -60,19 +62,24 @@ public class Directorio extends Archivo{
            }
         }
         if(existe){
-            throw new Exception("Fichero existente");
+            System.out.println("Fichero existente");        
         }
-        Fichero nuevoFichero = new Fichero(nombre, extension);
-        ficheros.add(nuevoFichero);
+        else{
+            Fichero nuevoFichero = new Fichero(nombre, extension);
+            ficheros.add(nuevoFichero);
+            System.out.println("Fichero creado correctamente");
+        }
     }
     
-    public Archivo AbrirDirectorio(String nombre) throws Exception{
+    public Directorio AbrirDirectorio(String nombre) throws Exception{
         for(Directorio directorio: directorios){
             if(directorio.nombre.equals(nombre)){
+                Sistema.setDirectorioAnterior(this);
                 return directorio;
             }
         }
-        throw new Exception("Directorio no encontrado");
+        System.out.println("Directorio no encontrado");
+        return null;
     }
     
     public void AbrirFichero(String nombre, String extension) throws Exception{

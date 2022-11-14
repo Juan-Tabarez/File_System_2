@@ -21,12 +21,18 @@ public class Archivo {
     protected boolean esDirectorio;
   
     protected Usuario propietario;
-    
-    protected Permisos permisosPropietario;
-    
+        
     protected Permisos permisosGrupo;
     
     protected Permisos permisosUsuario;
+    
+    public String getPropietario(){
+        return propietario.getNombre();
+    }
+    
+    public Permisos getPermisosUsuario(){
+        return permisosUsuario;
+    }
     
     public void Abrir(){}
     

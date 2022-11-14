@@ -14,21 +14,27 @@ public class Usuarios {
     
     public static LinkedList<Usuario> usuarios = new LinkedList<>();
     
-    public static void CrearUsuarios(String nombre) throws Exception{
+    public static void CrearUsuario(String nombre) throws Exception{
         Usuario usuario = buscarUsuario(nombre);
         if(usuario != null){
-            throw new Exception("Usuario ya existente");
+            System.out.println("Usuario ya existente");        
         }
-        Usuario nuevoUsuario = new Usuario(nombre);
-        usuarios.add(nuevoUsuario);
+        else{
+            Usuario nuevoUsuario = new Usuario(nombre);
+            usuarios.add(nuevoUsuario);
+            System.out.println("Usuario creado correctamente");
+        }
     }
     
-    public static void EliminarUsuarios(String nombre) throws Exception{
+    public static void EliminarUsuario(String nombre) throws Exception{
         Usuario usuario = buscarUsuario(nombre);
         if(usuario == null){
-            throw new Exception("Usuario no existente");
+            System.out.println("Usuario no existente");        
         }
-        usuarios.remove(usuario);
+        else{
+            usuarios.remove(usuario);
+            System.out.println("Usuario eliminado correctamente");
+        }
     }
     
     public static Usuario buscarUsuario(String nombre){

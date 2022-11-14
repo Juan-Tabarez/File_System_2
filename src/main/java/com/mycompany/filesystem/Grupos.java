@@ -11,47 +11,59 @@ import java.util.LinkedList;
  * @author Juan
  */
 public class Grupos {
-    
+
     public static LinkedList<Grupo> grupos = new LinkedList<>();
-    
-    public static void CrearGrupo(String nombre) throws Exception{
-        if(buscarGrupo(nombre) != null){
-            throw new Exception("Grupo existente");
+
+    public static void CrearGrupo(String nombre) throws Exception {
+        if (buscarGrupo(nombre) != null) {
+            System.out.println("El grupo ya existe");
+        } else {
+            Grupo grupoNuevo = new Grupo(nombre);
+            grupos.add(grupoNuevo);
+            System.out.println("Grupo creado correctamente");
         }
-        Grupo grupoNuevo = new Grupo(nombre);
-        grupos.add(grupoNuevo);
     }
-    
-    public static void EliminarGrupo(String nombre) throws Exception{
+
+    public static void EliminarGrupo(String nombre) throws Exception {
         Grupo grupo = buscarGrupo(nombre);
-        if(grupo == null){
-            throw new Exception("Grupo no existente");
+        if (grupo == null) {
+            System.out.println("El grupo no existe");
+        } else {
+            grupos.remove(grupo);
+            System.out.println("Grupo eliminado correctamente");
         }
-        grupos.remove(grupo);  
     }
-    
-    public static Grupo buscarGrupo(String nombre){
-        for(Grupo grupo: grupos){
-            if(grupo.getNombre().equals(nombre)){
+
+    public static Grupo buscarGrupo(String nombre) {
+        for (Grupo grupo : grupos) {
+            if (grupo.getNombre().equals(nombre)) {
                 return grupo;
             }
         }
         return null;
     }
-    
-     public void agregarUsuarioAGrupo(String nombreUsuario, String nombreGrupo) throws Exception{
+
+    public static void agregarUsuarioAGrupo(String nombreUsuario, String nombreGrupo) throws Exception {
         Grupo grupo = Grupos.buscarGrupo(nombreGrupo);
         Usuario usuario = Usuarios.buscarUsuario(nombreUsuario);
-        if(grupo == null){
-            throw new Exception("Grupo no existente");
+        if (grupo == null || usuario == null) {
+            if (grupo == null) {
+                System.out.println("Grupo no existente");
+            }
+            if (usuario == null) {
+                System.out.println("Usuario no existente");
+            }
+        } else {
+            if (grupo.ConieneUsuario(nombreUsuario)) {
+                System.out.println("El usuario " + nombreUsuario + " ya pertenece al grupo " + nombreGrupo);
+            } else {
+                if (grupo.getNombre().equals("sudo")) {
+                    usuario.setPermisos(true);
+                }
+                grupo.agregarUusario(usuario);
+                usuario.agregarGrupo(grupo);
+                System.out.println("Usuario " + nombreUsuario + " agregado correctamente al gurpo " + nombreGrupo);
+            }
         }
-        if(usuario == null){
-            throw new Exception("Usuario no existente");        
-        }
-        if(grupo.ConieneUsuario(nombreUsuario)){
-            throw new Exception("El usuario "+nombreUsuario+" ya pertenece al grupo "+nombreGrupo);
-        }
-        grupo.agregarUusario(usuario);
-        usuario.agregarGrupo(grupo);
     }
 }
