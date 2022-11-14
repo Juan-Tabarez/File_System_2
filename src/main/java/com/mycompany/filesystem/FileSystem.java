@@ -90,7 +90,9 @@ public class FileSystem {
                        Sistema.setDirectorioActual(directorio);
                     }
                     break;
-                    
+                case "AbrirArchivo":
+                    String[] fichero = comando_parametros[1].split(".");
+                    if(usuarioActual.getPermisos() || directorioActual.b)
             }
             
         }

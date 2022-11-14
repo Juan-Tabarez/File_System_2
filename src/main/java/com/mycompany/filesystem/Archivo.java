@@ -16,8 +16,6 @@ public class Archivo {
     
     protected File contenido;
     
-    protected String extension;
-
     protected boolean esDirectorio;
   
     protected Usuario propietario;
@@ -32,6 +30,10 @@ public class Archivo {
     
     public Permisos getPermisosUsuario(){
         return permisosUsuario;
+    }
+    
+    public String getNombre(){
+        return nombre;
     }
     
     public void Abrir(){}

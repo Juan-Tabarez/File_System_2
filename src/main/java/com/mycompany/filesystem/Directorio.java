@@ -31,7 +31,7 @@ public class Directorio extends Archivo{
             System.out.println(directorio.nombre);         
         }
         for(Fichero fichero: ficheros){
-            System.out.println(fichero.nombre+"."+fichero.extension);
+            System.out.println(fichero.nombre+"."+fichero.getExtension());
         }
     } 
     
@@ -56,7 +56,7 @@ public class Directorio extends Archivo{
     public void CrearFichero(String nombre, String extension) throws Exception{
         boolean existe = false;
         for(Fichero fichero: ficheros){
-           if(fichero.nombre.equals(nombre) && fichero.extension.equals(extension)){
+           if(fichero.nombre.equals(nombre) && fichero.getExtension().equals(extension)){
                existe = true;
                break;
            }
@@ -85,7 +85,7 @@ public class Directorio extends Archivo{
     public void AbrirFichero(String nombre, String extension) throws Exception{
         boolean existe = false;
         for(Fichero fichero: ficheros){
-            if(fichero.nombre.equals(nombre) && fichero.extension.equals(extension)){
+            if(fichero.nombre.equals(nombre) && fichero.getExtension().equals(extension)){
                 existe = true;
                 fichero.Abrir();
                 break;
@@ -94,5 +94,14 @@ public class Directorio extends Archivo{
         if(!existe){
             throw new Exception("Fichero no encontrado");
         }
+    }
+    
+    public Fichero BuscarFichero(String nombre, String extension){
+        for(Fichero fichero: ficheros){
+            if(fichero.getNombre().equals(nombre) && fichero.getExtension().equals(extension)){
+                return fichero;
+            }
+        }
+        return null;
     }
 }

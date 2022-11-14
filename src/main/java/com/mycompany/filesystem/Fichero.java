@@ -12,6 +12,8 @@ import java.io.File;
  */
 public class Fichero extends Archivo{
     
+    private String extension;
+
     public Fichero(String nombre, String extension){
         this.nombre = nombre;
         this.extension = extension;
@@ -20,6 +22,10 @@ public class Fichero extends Archivo{
         permisosUsuario = new Permisos(false, false, false);
         permisosGrupo = new Permisos(false, false, false);
     }
+    
+    public String getExtension(){
+        return extension;
+    } 
     
     @Override
     public void Abrir(){
