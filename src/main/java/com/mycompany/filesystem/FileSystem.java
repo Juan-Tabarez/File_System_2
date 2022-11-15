@@ -5,6 +5,8 @@
 
 package com.mycompany.filesystem;
 
+import java.util.Scanner;
+
 /**
  *
  * @author Juan
@@ -12,6 +14,9 @@ package com.mycompany.filesystem;
 public class FileSystem {
 
     public static void main(String[] args) throws Exception {
+        
+        Scanner inp = new Scanner(System.in);
+
         Grupos.CrearGrupo("sudo");
         
         Usuarios.CrearUsuario("root");
@@ -23,7 +28,8 @@ public class FileSystem {
         Sistema.setDirectorioActual(directorioPrincipal);
               
         while(true){
-            String input = System.console().readLine();
+            
+            String input = inp.nextLine();
             String[] comando_parametros = input.split(" "); 
             Usuario usuarioActual = Sistema.getUsuarioActual();
             Directorio directorioActual = directorioPrincipal;
@@ -77,8 +83,14 @@ public class FileSystem {
                     break;
                 case "NuevoArchivo":
                     if(usuarioActual.getPermisos() || usuarioActual.getNombre().equals(directorioActual.getPropietario()) || directorioActual.getPermisosUsuario().getEscritura()){
-                        String[] fichero = comando_parametros[1].split(".");
-                        directorioActual.CrearFichero(fichero[0], fichero[1]);
+                        if(!input.contains(".")){
+                            System.out.println("No puede crear archivos sin extension");
+                        }
+                        else{
+                            String nombreFichero = comando_parametros[1];
+                            String[] ficheroNuevo = nombreFichero.split("\\.");
+                            directorioActual.CrearFichero(ficheroNuevo[0], ficheroNuevo[1]);   
+                        }
                     }
                     else{
                         System.out.println("No tiene permisos para realizar esta acción");
@@ -89,12 +101,20 @@ public class FileSystem {
                     if((directorio != null) && (usuarioActual.getPermisos() || directorio.getPropietario().equals(usuarioActual.getNombre()) || directorioActual.getPermisosUsuario().getLectura())){
                        Sistema.setDirectorioActual(directorio);
                     }
+                    else{
+                        System.out.println("No tiene permisos para realizar esta acción");
+                    }
                     break;
                 case "AbrirArchivo":
-                    String[] fichero = comando_parametros[1].split(".");
-                    if(usuarioActual.getPermisos() || directorioActual.b)
+                    String[] fichero = comando_parametros[1].split("\\.");
+                    Fichero ficheroAAbrir = directorioActual.BuscarFichero(fichero[0], fichero[1]);
+                    if(fichero != null){
+                       ficheroAAbrir.Abrir();
+                    }
+                    break;
+                case "MostrarArchivos":
+                    directorioActual.MostrarArchivos();
             }
-            
         }
     }
 }

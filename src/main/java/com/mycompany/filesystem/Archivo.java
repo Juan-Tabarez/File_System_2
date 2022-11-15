@@ -13,9 +13,7 @@ import java.io.File;
 public class Archivo {
     
     protected String nombre;
-    
-    protected File contenido;
-    
+        
     protected boolean esDirectorio;
   
     protected Usuario propietario;

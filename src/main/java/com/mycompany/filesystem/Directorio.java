@@ -18,6 +18,7 @@ public class Directorio extends Archivo{
 
     
     public Directorio(String nombre){
+        this.propietario = Sistema.getUsuarioActual();
         esDirectorio = true;
         ficheros = new LinkedList<Fichero>();
         directorios = new LinkedList<Directorio>();
@@ -27,11 +28,15 @@ public class Directorio extends Archivo{
     }
     
     public void MostrarArchivos(){
-        for(Directorio directorio: directorios){        
-            System.out.println(directorio.nombre);         
+        if(directorios != null){
+            for(Directorio directorio: directorios){        
+                System.out.println(directorio.nombre);         
+            }    
         }
-        for(Fichero fichero: ficheros){
-            System.out.println(fichero.nombre+"."+fichero.getExtension());
+        if(ficheros != null){
+            for(Fichero fichero: ficheros){
+               System.out.println(fichero.nombre+"."+fichero.getExtension());
+            }   
         }
     } 
     
