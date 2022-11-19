@@ -23,16 +23,16 @@ public class FileSystem {
         
         Grupos.CrearGrupo("sudo");
         
-        Directorio directorioPrincipal = new Directorio("Sistema");
+        Directorio directorioPrincipal = new Directorio(); 
         
         Sistema.setDirectorioActual(directorioPrincipal);
-              
+        
         while(true){    
             String input = inp.nextLine();
             String[] comando_parametros = input.split(" "); 
             Usuario usuarioActual = Sistema.getUsuarioActual();
             Directorio directorioActual = Sistema.getDirectorioActual();
-            //try{
+            try{
                 switch(comando_parametros[0]){
                     case "cambiarUsuario":
                         Sistema.cambiarUsuario(comando_parametros[1]);
@@ -80,7 +80,7 @@ public class FileSystem {
                         break;
                     case "..":
                         Sistema.setDirectorioActual(Sistema.getDirectorioAnterior());
-                        System.out.println("Directorio Actual: "+Sistema.getDirectorioActual());
+                        System.out.println("Directorio Actual: "+Sistema.getDirectorioActual().getNombre());
                         break;
                     case "cambiarPermisosUsuario":
                         directorioActual.SetPermisosUsuario(comando_parametros[1], comando_parametros[2]);
@@ -88,12 +88,18 @@ public class FileSystem {
                     case "cambiarPermisosGrupo":
                         directorioActual.SetPermisosGrupo(comando_parametros[1], comando_parametros[2]);
                         break;
+                    case "eliminar":
+                        directorioActual.Eliminar(comando_parametros[1]);
+                        break;
+                    case "renombrar":
+                        directorioActual.Renombrar(comando_parametros[1], comando_parametros[2]);
+                        break;
                     default:
                         System.out.println("Comando non valido");
                 }
-//            }catch(Exception e){
-//                System.out.println("Comando no valido");
-//            }
+            }catch(Exception e){
+               System.out.println("Comando no valido");
+            }
         }
     }
 }

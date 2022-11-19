@@ -15,6 +15,16 @@ public class Directorio extends Archivo {
     private LinkedList<Fichero> ficheros;
 
     private LinkedList<Directorio> directorios;
+    
+    public Directorio(){
+        this.propietario = Sistema.getUsuarioActual();
+        esDirectorio = true;
+        ficheros = new LinkedList<Fichero>();
+        directorios = new LinkedList<Directorio>();
+        this.nombre = "Sistema";
+        permisosUsuario = new Permisos(true, true, true);
+        permisosGrupo = new Permisos(true, true, true);
+    }
 
     public Directorio(String nombre) {
         this.propietario = Sistema.getUsuarioActual();
@@ -136,6 +146,54 @@ public class Directorio extends Archivo {
         }
         return null;
     }
+    
+    public void Eliminar(String nombre){
+        Archivo archivoAEliminar;
+        if(nombre.contains(".")){
+            String[] fich = nombre.split("\\.");
+            archivoAEliminar = BuscarFichero(fich[0], fich[1]);
+        }else{
+            archivoAEliminar = BuscarDirectorio(nombre);
+        }
+        if(archivoAEliminar != null){
+            if(Sistema.getUsuarioActual().getPermisos() || archivoAEliminar.getPropietario().equals(Sistema.getUsuarioActual().getNombre())){
+                if(archivoAEliminar.esDirectorio){
+                    directorios.remove(archivoAEliminar);
+                }else{
+                    ficheros.remove(archivoAEliminar);
+                }
+                System.out.println("Archivo eliminado correctamente");
+            }else{
+                System.out.println("No tiene permisos para realizar esta accion");
+            }
+        }else{
+            System.out.println("Archivo no encontrado");
+        }
+    }
+    
+    public void Renombrar(String nombre, String nuevoNombre){
+        Archivo archivoARenombrar;
+        if(nombre.contains(".")){
+            String[] fich = nombre.split("\\.");
+            archivoARenombrar = BuscarFichero(fich[0], fich[1]);
+        }else{
+            archivoARenombrar = BuscarDirectorio(nombre);
+        }
+        if(archivoARenombrar != null){
+            if(Sistema.getUsuarioActual().getPermisos() || archivoARenombrar.getPropietario().equals(Sistema.getUsuarioActual().getNombre())){
+                if(archivoARenombrar.esDirectorio){
+                    archivoARenombrar.nombre = nuevoNombre;
+                }else{
+                    archivoARenombrar.nombre = nuevoNombre;
+                }
+                System.out.println("Nombre modificado");
+            }else{
+                System.out.println("No tiene permisos para realizar esta accion");
+            }
+        }else{
+            System.out.println("Archivo no encontrado");
+        }
+    }
 
     public void SetPermisosUsuario(String nombreArchivo, String permisos) {
         Archivo archivoACambiar = null;
@@ -143,11 +201,11 @@ public class Directorio extends Archivo {
             String[] archivoSplit = nombreArchivo.split("\\.");
             archivoACambiar = Sistema.getDirectorioActual().BuscarFichero(archivoSplit[0], archivoSplit[1]);
         } else {
-            archivoACambiar = Sistema.getDirectorioActual().BuscarDirectorio(nombre);
+            archivoACambiar = Sistema.getDirectorioActual().BuscarDirectorio(nombreArchivo);
         }
 
         if (archivoACambiar != null) {
-            if (Sistema.getUsuarioActual().getPermisos() || Sistema.getUsuarioActual().getNombre().equals(propietario.getNombre())) {
+            if (Sistema.getUsuarioActual().getPermisos() || Sistema.getUsuarioActual().getNombre().equals(archivoACambiar.getPropietario())) {
                 if (permisos.charAt(0) == 'l') {
                     archivoACambiar.permisosUsuario.setLectura(true);
                 } else {
@@ -181,11 +239,11 @@ public class Directorio extends Archivo {
             String[] archivoSplit = nombreArchivo.split("\\.");
             archivoACambiar = Sistema.getDirectorioActual().BuscarFichero(archivoSplit[0], archivoSplit[1]);
         } else {
-            archivoACambiar = Sistema.getDirectorioActual().BuscarDirectorio(nombre);
+            archivoACambiar = Sistema.getDirectorioActual().BuscarDirectorio(nombreArchivo);
         }
         
         if(archivoACambiar != null){
-            if (Sistema.getUsuarioActual().getPermisos() || Sistema.getUsuarioActual().getNombre().equals(propietario.getNombre())) {
+            if (Sistema.getUsuarioActual().getPermisos() || Sistema.getUsuarioActual().getNombre().equals(archivoACambiar.getPropietario())) {
                 if (permisos.charAt(0) == 'l') {
                     archivoACambiar.permisosGrupo.setLectura(true);
                 } else {

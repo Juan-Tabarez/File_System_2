@@ -7,6 +7,7 @@ package com.mycompany.filesystem;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,11 +16,10 @@ import java.util.logging.Logger;
  * @author Juan
  */
 public class Fichero extends Archivo{
-    
-    private String extension;
-    
+        
     private File contenido;
 
+    private String extension;
 
     public Fichero(String nombre, String extension) throws IOException{
         this.propietario = Sistema.getUsuarioActual();
@@ -54,10 +54,13 @@ public class Fichero extends Archivo{
             String[] leerArchivo = ManejadorArchivosGenerico.leerArchivo("./src/Contenidos/"+nombre+extension+".txt");
             for(String linea: leerArchivo){
                 System.out.println(linea);
-            }
+            }          
         }
         else if((this.permisosUsuario.getEscritura()) || (this.permisosGrupo.getEscritura() && Sistema.getUsuarioActual().compartenGrupo(propietario))){
-            String input = System.console().readLine();
+            System.out.println("Escribir");
+            Scanner inp = new Scanner(System.in);
+            String input = inp.nextLine();
+
             String[] lineas = input.split("\n");
             ManejadorArchivosGenerico.escribirArchivo("./src/Contenidos/"+nombre+extension+".txt", lineas);
         }
