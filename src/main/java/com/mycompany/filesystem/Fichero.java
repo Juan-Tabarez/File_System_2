@@ -22,6 +22,7 @@ public class Fichero extends Archivo{
 
 
     public Fichero(String nombre, String extension) throws IOException{
+        this.propietario = Sistema.getUsuarioActual();
         this.nombre = nombre;
         this.extension = extension;
         this.contenido = new File("./src/Contenidos/"+nombre+extension+".txt");
@@ -38,7 +39,10 @@ public class Fichero extends Archivo{
     @Override
     public void Abrir(){
         Usuario usuarioActual = Sistema.getUsuarioActual();
-        if(usuarioActual.getPermisos() || this.getPropietario().equals(usuarioActual.getNombre()) || (this.permisosUsuario.getEscritura() && this.permisosUsuario.getLectura())){
+        if(usuarioActual.getPermisos() || this.getPropietario().equals(usuarioActual.getNombre()) || 
+          (this.getPermisosUsuario().getEscritura() && this.getPermisosUsuario().getLectura()) || 
+          (this.getPermisosGrupo().getEscritura() && this.getPermisosGrupo().getLectura() && 
+          Sistema.getUsuarioActual().compartenGrupo(propietario))){
             Desktop dt= Desktop.getDesktop();
             try {
                 dt.open(contenido);
@@ -46,13 +50,13 @@ public class Fichero extends Archivo{
                 Logger.getLogger(Fichero.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        else if(this.permisosUsuario.getLectura()){
+        else if((this.permisosUsuario.getLectura()) || (this.permisosGrupo.getLectura() && Sistema.getUsuarioActual().compartenGrupo(propietario))){
             String[] leerArchivo = ManejadorArchivosGenerico.leerArchivo("./src/Contenidos/"+nombre+extension+".txt");
             for(String linea: leerArchivo){
                 System.out.println(linea);
             }
         }
-        else if(this.permisosUsuario.getEscritura()){
+        else if((this.permisosUsuario.getEscritura()) || (this.permisosGrupo.getEscritura() && Sistema.getUsuarioActual().compartenGrupo(propietario))){
             String input = System.console().readLine();
             String[] lineas = input.split("\n");
             ManejadorArchivosGenerico.escribirArchivo("./src/Contenidos/"+nombre+extension+".txt", lineas);

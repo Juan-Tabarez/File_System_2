@@ -44,4 +44,24 @@ public class Usuario {
     public void setPermisos(boolean permisos){
         permisosRoot = permisos;
     }
+    
+    public boolean perteneceAGrupo(String nombreGrupo){
+        for(Grupo grupo: gruposUsuario){
+            if(grupo.getNombre().equals(nombreGrupo)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean compartenGrupo(Usuario usuario){
+        for(Grupo grupoUs1: this.gruposUsuario){
+            for(Grupo grupoUs2: usuario.gruposUsuario){
+                if(grupoUs1.getNombre().equals(grupoUs2.getNombre())){
+                    return true;
+                }    
+            }
+        }
+        return false;
+    }
 }
