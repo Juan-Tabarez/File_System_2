@@ -36,17 +36,13 @@ public class Directorio extends Archivo {
         permisosGrupo = new Permisos(false, false, false);
     }
 
-    public void MostrarArchivos() {
-        if (directorios != null) {
-            for (Directorio directorio : directorios) {
-                System.out.println(directorio.nombre);
-            }
+    public void MostrarArchivos() {  
+        for (Directorio directorio : directorios) {
+            System.out.println(directorio.nombre);
         }
-        if (ficheros != null) {
-            for (Fichero fichero : ficheros) {
-                System.out.println(fichero.nombre + "." + fichero.getExtension());
-            }
-        }
+        for (Fichero fichero : ficheros) {
+            System.out.println(fichero.nombre + "." + fichero.getExtension());
+        }    
     }
 
     public void NuevaCarpeta(String nombre) throws Exception {
@@ -62,7 +58,10 @@ public class Directorio extends Archivo {
         } else {
             Usuario usuarioActual = Sistema.getUsuarioActual();
             Directorio directorioActual = Sistema.getDirectorioActual();
-            if (usuarioActual.getPermisos() || usuarioActual.getNombre().equals(directorioActual.getPropietario()) || directorioActual.getPermisosUsuario().getEscritura() || (directorioActual.getPermisosGrupo().getEscritura() && Sistema.getUsuarioActual().compartenGrupo(propietario))) {
+            if (usuarioActual.getPermisos() || usuarioActual.getNombre().equals(directorioActual.getPropietario()) || 
+                directorioActual.getPermisosUsuario().getEscritura() || 
+                (directorioActual.getPermisosGrupo().getEscritura() && Grupos.compartenGrupo(propietario, Sistema.getUsuarioActual()))) {
+                
                 Directorio nuevoDirectorio = new Directorio(nombre);
                 directorios.add(nuevoDirectorio);
                 System.out.println("Directorio creado");
@@ -85,7 +84,10 @@ public class Directorio extends Archivo {
         } else {
             Usuario usuarioActual = Sistema.getUsuarioActual();
             Directorio directorioActual = Sistema.getDirectorioActual();
-            if (usuarioActual.getPermisos() || usuarioActual.getNombre().equals(directorioActual.getPropietario()) || directorioActual.getPermisosUsuario().getEscritura() || (directorioActual.getPermisosGrupo().getEscritura() && Sistema.getUsuarioActual().compartenGrupo(propietario))) {
+            if (usuarioActual.getPermisos() || usuarioActual.getNombre().equals(directorioActual.getPropietario()) || 
+                directorioActual.getPermisosUsuario().getEscritura() || 
+                (directorioActual.getPermisosGrupo().getEscritura() && Grupos.compartenGrupo(propietario, Sistema.getUsuarioActual()))) {
+                
                 Fichero nuevoFichero = new Fichero(nombre, extension);
                 ficheros.add(nuevoFichero);
                 System.out.println("Fichero creado correctamente");
@@ -96,14 +98,13 @@ public class Directorio extends Archivo {
     }
 
     public void AbrirDirectorio(String nombre) {
-        Directorio directorioAAbrir = null;
-        for (Directorio directorio : directorios) {
-            if (directorio.nombre.equals(nombre)) {
-                directorioAAbrir = directorio;
-            }
-        }
+        Directorio directorioAAbrir = this.BuscarDirectorio(nombre);
+        
         if (directorioAAbrir != null) {
-            if (Sistema.getUsuarioActual().getPermisos() || directorioAAbrir.getPropietario().equals(Sistema.getUsuarioActual().getNombre()) || directorioAAbrir.getPermisosUsuario().getLectura() || (directorioAAbrir.getPermisosGrupo().getLectura() && Sistema.getUsuarioActual().compartenGrupo(propietario))) {
+            if (Sistema.getUsuarioActual().getPermisos() || directorioAAbrir.getPropietario().equals(Sistema.getUsuarioActual().getNombre()) || 
+                directorioAAbrir.getPermisosUsuario().getLectura() || 
+                (directorioAAbrir.getPermisosGrupo().getLectura() && Grupos.compartenGrupo(propietario, Sistema.getUsuarioActual()))) {
+                
                 Sistema.setDirectorioAnterior(Sistema.getDirectorioActual());
                 Sistema.setDirectorioActual(directorioAAbrir);
                 System.out.println("Directorio Actual: " + directorioAAbrir.getNombre());
@@ -230,7 +231,6 @@ public class Directorio extends Archivo {
         }else{
             System.out.println("Archivo no encontrado");
         }
-
     }
 
     public void SetPermisosGrupo(String nombreArchivo, String permisos) {
@@ -261,6 +261,7 @@ public class Directorio extends Archivo {
                 } else {
                     archivoACambiar.permisosGrupo.setEjecucion(false);
                 }
+                System.out.println("Permisos del archivo modificado");
             } else {
                 System.out.println("No tiene permisos para realizar esta acción");
             }    

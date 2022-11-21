@@ -42,7 +42,7 @@ public class Fichero extends Archivo{
         if(usuarioActual.getPermisos() || this.getPropietario().equals(usuarioActual.getNombre()) || 
           (this.getPermisosUsuario().getEscritura() && this.getPermisosUsuario().getLectura()) || 
           (this.getPermisosGrupo().getEscritura() && this.getPermisosGrupo().getLectura() && 
-          Sistema.getUsuarioActual().compartenGrupo(propietario))){
+          Grupos.compartenGrupo(propietario, Sistema.getUsuarioActual()))){
             Desktop dt= Desktop.getDesktop();
             try {
                 dt.open(contenido);
@@ -50,13 +50,13 @@ public class Fichero extends Archivo{
                 Logger.getLogger(Fichero.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        else if((this.permisosUsuario.getLectura()) || (this.permisosGrupo.getLectura() && Sistema.getUsuarioActual().compartenGrupo(propietario))){
+        else if((this.permisosUsuario.getLectura()) || (this.permisosGrupo.getLectura() && Grupos.compartenGrupo(propietario, Sistema.getUsuarioActual()))){
             String[] leerArchivo = ManejadorArchivosGenerico.leerArchivo("./src/Contenidos/"+nombre+extension+".txt");
             for(String linea: leerArchivo){
                 System.out.println(linea);
             }          
         }
-        else if((this.permisosUsuario.getEscritura()) || (this.permisosGrupo.getEscritura() && Sistema.getUsuarioActual().compartenGrupo(propietario))){
+        else if((this.permisosUsuario.getEscritura()) || (this.permisosGrupo.getEscritura() && Grupos.compartenGrupo(propietario, Sistema.getUsuarioActual()))){
             System.out.println("Escribir");
             Scanner inp = new Scanner(System.in);
             String input = inp.nextLine();

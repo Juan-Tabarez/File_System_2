@@ -95,7 +95,7 @@ public class FileSystem {
                         directorioActual.Renombrar(comando_parametros[1], comando_parametros[2]);
                         break;
                     default:
-                        System.out.println("Comando non valido");
+                        System.out.println("Comando no valido");
                 }
             }catch(Exception e){
                System.out.println("Comando no valido");

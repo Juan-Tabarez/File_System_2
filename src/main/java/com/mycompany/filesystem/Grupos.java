@@ -63,19 +63,27 @@ public class Grupos {
                     System.out.println("Usuario no existente");
                 }
             } else {
-                if (grupo.ConieneUsuario(nombreUsuario)) {
+                if (grupo.ContieneUsuarioPorNombre(nombreUsuario)) {
                     System.out.println("El usuario " + nombreUsuario + " ya pertenece al grupo " + nombreGrupo);
                 } else {
                     if (grupo.getNombre().equals("sudo")) {
                         usuario.setPermisos(true);
                     }
-                    grupo.agregarUusario(usuario);
-                    usuario.agregarGrupo(grupo);
+                    grupo.agregarUsuario(usuario);
                     System.out.println("Usuario " + nombreUsuario + " agregado correctamente al gurpo " + nombreGrupo);
                 }
             }
         }else{
             System.out.println("No tiene permisos para realizar esta acción");
         }
+    }
+    
+    public static boolean compartenGrupo(Usuario usuario1, Usuario usuario2){
+        for(Grupo grupo: grupos){
+            if(grupo.getUsuarios().contains(usuario1) && grupo.getUsuarios().contains(usuario2)){
+                return true;
+            }
+        }
+        return false;
     }
 }
